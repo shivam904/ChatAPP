@@ -1,4 +1,4 @@
-import { compare } from "bcrypt";
+import bcrypt from "bcryptjs"
 import { NEW_REQUEST, REFETCH_CHATS } from "../constants/events.js";
 import { getOtherMember } from "../lib/helper.js";
 import { TryCatch } from "../middlewares/error.js";
@@ -47,7 +47,7 @@ const login = TryCatch(async (req, res, next) => {
 
   if (!user) return next(new ErrorHandler("Invalid Username or Password", 404));
 
-  const isMatch = await compare(password, user.password);
+  const isMatch = await bcrypt.compare(password, user.password);
 
   if (!isMatch)
     return next(new ErrorHandler("Invalid Username or Password", 404));
